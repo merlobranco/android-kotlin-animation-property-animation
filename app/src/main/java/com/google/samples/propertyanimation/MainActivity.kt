@@ -25,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -155,6 +157,35 @@ class MainActivity : AppCompatActivity() {
         newStar.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
             FrameLayout.LayoutParams.WRAP_CONTENT)
         container.addView(newStar)
+
+        /**
+         * Setting a new scale from .1x to 1.6x for the new star
+         */
+        newStar.scaleX = Math.random().toFloat() * 1.5f + .1f
+        newStar.scaleY = newStar.scaleX
+        starW *= newStar.scaleX
+        starH *= newStar.scaleY
+
+        /**
+         * Positioning the new star
+         * This code uses the width of the star to position it from half-way off the screen on the left (-starW / 2)
+         * to half-way off the screen on the right (with the star positioned at (containerW - starW / 2)
+         */
+        newStar.translationX = Math.random().toFloat() *
+                containerW - starW / 2
+
+        /**
+         * In this case we will have different types of motion in a interpolation on those animations
+         */
+        // The rotation will use a smooth linear motion
+        // (moving at a constant rate over the entire rotation animation)
+        val rotator = ObjectAnimator.ofFloat(newStar, View.ROTATION, (Math.random() * 1080).toFloat())
+        rotator.interpolator = LinearInterpolator()
+        // While the falling animation will use an accelerating motion
+        // (simulating gravity pulling the star downward at a constantly faster rate)
+        val mover = ObjectAnimator.ofFloat(newStar, View.TRANSLATION_Y, -starH, containerH + starH)
+        mover.interpolator = AccelerateInterpolator(1f)
+
     }
 
     /**
