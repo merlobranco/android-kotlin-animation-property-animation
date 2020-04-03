@@ -77,14 +77,7 @@ class MainActivity : AppCompatActivity() {
         val animator = ObjectAnimator.ofFloat(star, View.ROTATION, -360f, 0f)
         animator.duration = 1000
         // Avoiding discontinuous motion. Disabling the Rotate Button during animation
-        animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                rotateButton.isEnabled = false
-            }
-            override fun onAnimationEnd(animation: Animator?) {
-                rotateButton.isEnabled = true
-            }
-        })
+        disableViewDuringAnimation(star, animator)
         animator.start()
     }
 
@@ -92,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         val animator = ObjectAnimator.ofFloat(star, View.TRANSLATION_X, 200f)
         animator.repeatCount = 1
         animator.repeatMode = ObjectAnimator.REVERSE
+        disableViewDuringAnimation(star, animator)
         animator.start()
     }
 
@@ -105,6 +99,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun shower() {
+    }
+
+    /**
+     * Preventing restarting the animation while is currently running
+     */
+    private fun disableViewDuringAnimation(view: View, animator: ObjectAnimator) {
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                view.isEnabled = false
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                view.isEnabled = true
+            }
+        })
     }
 
 }
