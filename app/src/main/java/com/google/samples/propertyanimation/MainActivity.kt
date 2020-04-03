@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         val animator = ObjectAnimator.ofFloat(star, View.ROTATION, -360f, 0f)
         animator.duration = 1000
         // Avoiding discontinuous motion. Disabling the Rotate Button during animation
-        animator.disableViewDuringAnimation(star)
+        animator.disableViewDuringAnimation(rotateButton)
         animator.start()
     }
 
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         val animator = ObjectAnimator.ofFloat(star, View.TRANSLATION_X, 200f)
         animator.repeatCount = 1
         animator.repeatMode = ObjectAnimator.REVERSE
-        animator.disableViewDuringAnimation(star)
+        animator.disableViewDuringAnimation(translateButton)
         animator.start()
     }
 
