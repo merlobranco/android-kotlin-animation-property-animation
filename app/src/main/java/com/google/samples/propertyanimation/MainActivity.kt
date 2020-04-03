@@ -20,6 +20,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -109,9 +110,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fader() {
+        val animator = ObjectAnimator.ofFloat(star, View.ALPHA, 0f)
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.disableViewDuringAnimation(fadeButton)
+        animator.start()
     }
 
     private fun colorizer() {
+        /**
+         * It flashes between many different colors on the way from BLACK to RED.
+         * The problem is that the animation is interpreting raw integers as colors.
+         * Animating between two integer values does not necessarily yield the same result as animating between the colors that those two integers represent.
+         */
+        var animator = ObjectAnimator.ofInt(star.parent,"backgroundColor", Color.BLACK, Color.RED).start()
     }
 
     private fun shower() {
