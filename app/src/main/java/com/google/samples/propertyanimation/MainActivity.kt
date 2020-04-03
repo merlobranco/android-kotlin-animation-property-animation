@@ -16,10 +16,7 @@
 
 package com.google.samples.propertyanimation
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.animation.*
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -185,6 +182,17 @@ class MainActivity : AppCompatActivity() {
         // (simulating gravity pulling the star downward at a constantly faster rate)
         val mover = ObjectAnimator.ofFloat(newStar, View.TRANSLATION_Y, -starH, containerH + starH)
         mover.interpolator = AccelerateInterpolator(1f)
+
+        /**
+         * AnimatorSet is basically a group of animations, along with instructions on when to run those animations.
+         * It can play animations in parallel, as we will do here, or sequentially
+         *
+         * An AnimatorSet can also contain other AnimatorSets,
+         * so we can create very complex hierarchical choreography by grouping animators together into these set
+         */
+        val set = AnimatorSet()
+        set.playTogether(mover, rotator)
+        set.duration = (Math.random() * 1500 + 500).toLong()
 
     }
 
