@@ -123,7 +123,17 @@ class MainActivity : AppCompatActivity() {
          * The problem is that the animation is interpreting raw integers as colors.
          * Animating between two integer values does not necessarily yield the same result as animating between the colors that those two integers represent.
          */
-        var animator = ObjectAnimator.ofInt(star.parent,"backgroundColor", Color.BLACK, Color.RED).start()
+//        var animator = ObjectAnimator.ofInt(star.parent,"backgroundColor", Color.BLACK, Color.RED).start()
+        /**
+         *  We need an animator that knows how to interpret (and animate between) color values,
+         *  rather than simply the integers that represent those colors.
+         */
+        var animator = ObjectAnimator.ofArgb(star.parent, "backgroundColor", Color.BLACK, Color.RED)
+        animator.setDuration(500)
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.repeatCount = 1
+        animator.disableViewDuringAnimation(colorizeButton)
+        animator.start()
     }
 
     private fun shower() {
